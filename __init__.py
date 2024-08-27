@@ -11,6 +11,10 @@ bl_info = {
 
 if "bpy" in locals():
     import importlib
+    if "property_settings" in locals():
+        importlib.reload(property_settings)
+    if "menu_ui" in locals():
+        importlib.reload(menu_ui)
     if "bake_sub_pivots" in locals():
         importlib.reload(bake_sub_pivots)
 
