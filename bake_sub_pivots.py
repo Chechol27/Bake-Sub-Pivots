@@ -8,6 +8,8 @@ class BakeSubPivots(bpy.types.Operator):
     bl_label = "Bake Sub Pivots"
     bl_options = {'UNDO'}
 
+    layer_names = ["PosXY", "PosZNX", "NYZ"]
+
     @staticmethod
     def calculate_pivot_from_vertex_indices(context: bpy.types.Context, obj: bpy.types.Object) -> (Vector, Vector):
         scene = context.scene
@@ -42,9 +44,15 @@ class BakeSubPivots(bpy.types.Operator):
 
             print(f"Sub Pivot: {new_pivot}")
             print(f"Rotation Axis: {normal}")
-            pos_xy = obj.data.uv_layers.new(name="PosXY")
-            pos_z_n_x = obj.data.uv_layers.new(name="PosZNX")
-            n_yz = obj.data.uv_layers.new(name="NYZ")
+
+            uv_layer_names = [layer.name for layer in obj.data.uv_layers]
+            for layer_name in self.layer_names:
+                if layer_name in uv_layer_names:
+                    obj.data.uv_layers.remove(obj.data.uv_layers[layer_name])
+
+            pos_xy = obj.data.uv_layers.new(name=self.layer_names[0])
+            pos_z_n_x = obj.data.uv_layers.new(name=self.layer_names[1])
+            n_yz = obj.data.uv_layers.new(name=self.layer_names[2])
 
             for loop in obj.data.loops:
                 pos_xy.data[loop.index].uv = new_pivot.xz
