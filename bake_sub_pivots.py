@@ -53,8 +53,8 @@ class BakeSubPivots(bpy.types.Operator):
             pos_xy = obj.data.uv_layers.new(name=self.layer_names[0])
             pos_z_n_x = obj.data.uv_layers.new(name=self.layer_names[1])
             n_yz = obj.data.uv_layers.new(name=self.layer_names[2])
-            new_pivot *= Vector((-1, -1, 1))
-            normal *= Vector((-1, -1, 1))
+            new_pivot *= Vector((1, 1, 1))
+            normal *= Vector((1, 1, 1))
             for loop in obj.data.loops:
                 pos_xy.data[loop.index].uv = new_pivot.xz
                 pos_z_n_x.data[loop.index].uv = (new_pivot.y, normal.x)
